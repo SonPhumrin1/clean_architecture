@@ -127,4 +127,33 @@ class PostRepositoryImpl implements PostRepository {
       return Left(NetworkFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<PostEntity>>> syncPosts(
+      List<PostEntity> posts) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final postApiModels = posts
+            .map((post) => PostOnlineModel(
+                id: post.id,
+                userId: post.userId,
+                title: post.title,
+                body: post.body))
+            .toList();
+        final syncedPosts = await remoteDataSource.syncPosts(postApiModels);
+        final realmPosts = syncedPosts
+            .map((model) => PostOfflineModel.fromEntity(
+                PostOnlineModel.toEntity(model) as PostEntity))
+            .toList();
+        await localDataSource.cachePosts(realmPosts);
+        return Right(syncedPosts
+            .map((model) => PostOnlineModel.toEntity(model) as PostEntity)
+            .toList());
+      } on Exception {
+        return Left(ServerFailure(message: 'Failed to sync posts'));
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
 }

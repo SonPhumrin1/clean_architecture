@@ -8,6 +8,7 @@ abstract class PostRemoteDataSource {
   Future<PostOnlineModel> createPost(PostOnlineModel post);
   Future<PostOnlineModel> updatePost(PostOnlineModel post);
   Future<void> deletePost(int id);
+  Future<List<PostOnlineModel>> syncPosts(List<PostOnlineModel> posts);
 }
 
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
@@ -71,6 +72,21 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
         AppConstants.apiBaseUrl + AppConstants.postsEndpoint + id.toString());
     if (response.statusCode != 200) {
       throw Exception('Failed to delete post');
+    }
+  }
+
+  @override
+  Future<List<PostOnlineModel>> syncPosts(List<PostOnlineModel> posts) async {
+    final response = await dio.post(
+      AppConstants.apiBaseUrl + AppConstants.postsEndpoint,
+      data: posts.map((post) => post.toJson()).toList(),
+    );
+    if (response.statusCode == 200) {
+      return (response.data as List)
+          .map((json) => PostOnlineModel.fromJson(json))
+          .toList();
+    } else {
+      throw Exception('Failed to sync posts');
     }
   }
 }
