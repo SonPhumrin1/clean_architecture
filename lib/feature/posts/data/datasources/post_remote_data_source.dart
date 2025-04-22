@@ -1,4 +1,5 @@
 import 'package:clean_architecture/core/util/constants.dart';
+import 'package:clean_architecture/feature/posts/data/model.dart/post_offline_model.dart';
 import 'package:clean_architecture/feature/posts/data/model.dart/post_online_model.dart';
 import 'package:dio/dio.dart';
 
@@ -8,7 +9,7 @@ abstract class PostRemoteDataSource {
   Future<PostOnlineModel> createPost(PostOnlineModel post);
   Future<PostOnlineModel> updatePost(PostOnlineModel post);
   Future<void> deletePost(int id);
-  Future<List<PostOnlineModel>> syncPosts(List<PostOnlineModel> posts);
+  Future<List<PostOnlineModel>> syncPosts(List<PostOfflineModel> posts);
 }
 
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
@@ -76,10 +77,10 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   }
 
   @override
-  Future<List<PostOnlineModel>> syncPosts(List<PostOnlineModel> posts) async {
+  Future<List<PostOnlineModel>> syncPosts(List<PostOfflineModel> posts) async {
     final response = await dio.post(
       AppConstants.apiBaseUrl + AppConstants.postsEndpoint,
-      data: posts.map((post) => post.toJson()).toList(),
+      data: posts.map((post) => post.toEntity()).toList(),
     );
     if (response.statusCode == 200) {
       return (response.data as List)

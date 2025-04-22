@@ -134,7 +134,7 @@ class PostRepositoryImpl implements PostRepository {
     if (await networkInfo.isConnected) {
       try {
         final postApiModels = posts
-            .map((post) => PostOnlineModel(
+            .map((post) => PostOfflineModel(
                 id: post.id,
                 userId: post.userId,
                 title: post.title,
