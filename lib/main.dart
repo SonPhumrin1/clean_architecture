@@ -1,3 +1,4 @@
+import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,8 +7,9 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      observers: [LoggingObserver()],
+      child: const MyApp(),
     ),
   );
 }
