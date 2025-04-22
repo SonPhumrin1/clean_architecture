@@ -115,7 +115,7 @@ GoRouter goRouter(Ref ref) {
   );
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AuthState extends _$AuthState {
   @override
   FutureOr<bool> build() async {

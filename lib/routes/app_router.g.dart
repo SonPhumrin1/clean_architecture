@@ -147,12 +147,11 @@ final goRouterProvider = AutoDisposeProvider<GoRouter>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GoRouterRef = AutoDisposeProviderRef<GoRouter>;
-String _$authStateHash() => r'd2db61e4dc4384548c3f718bd1a4425fe707558b';
+String _$authStateHash() => r'd7c2d5ee4a20dab829b91855bfcfc98681360aa4';
 
 /// See also [AuthState].
 @ProviderFor(AuthState)
-final authStateProvider =
-    AutoDisposeAsyncNotifierProvider<AuthState, bool>.internal(
+final authStateProvider = AsyncNotifierProvider<AuthState, bool>.internal(
   AuthState.new,
   name: r'authStateProvider',
   debugGetCreateSourceHash:
@@ -161,6 +160,6 @@ final authStateProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$AuthState = AutoDisposeAsyncNotifier<bool>;
+typedef _$AuthState = AsyncNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

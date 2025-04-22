@@ -3,7 +3,7 @@ import 'package:clean_architecture/core/usecases/usecase.dart';
 import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/feature/posts/domain/entities/post_entity.dart';
 import 'package:clean_architecture/feature/posts/domain/repositories/post_repository.dart';
-import 'package:clean_architecture/feature/posts/domain/usecases/get_posts.dart';
+import 'package:clean_architecture/feature/posts/domain/usecases/post_usecases.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

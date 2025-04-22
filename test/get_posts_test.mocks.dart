@@ -132,4 +132,23 @@ class MockPostRepository extends _i1.Mock implements _i3.PostRepository {
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.PostEntity>>> syncPosts(
+          List<_i6.PostEntity>? posts) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #syncPosts,
+          [posts],
+        ),
+        returnValue:
+            _i4.Future<_i2.Either<_i5.Failure, List<_i6.PostEntity>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i6.PostEntity>>(
+          this,
+          Invocation.method(
+            #syncPosts,
+            [posts],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.PostEntity>>>);
 }

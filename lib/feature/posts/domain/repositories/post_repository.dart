@@ -8,4 +8,5 @@ abstract class PostRepository {
   Future<Either<Failure, PostEntity>> createPost(PostEntity post);
   Future<Either<Failure, PostEntity>> updatePost(PostEntity post);
   Future<Either<Failure, void>> deletePost(int id);
+  Future<Either<Failure, List<PostEntity>>> syncPosts(List<PostEntity> posts);
 }

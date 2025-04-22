@@ -1,14 +1,9 @@
-import 'package:clean_architecture/injection/injection.dart';
 import 'package:clean_architecture/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:realm/realm.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Realm
-  Realm(config);
 
   runApp(
     const ProviderScope(
