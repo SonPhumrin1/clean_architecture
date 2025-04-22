@@ -147,7 +147,7 @@ final goRouterProvider = AutoDisposeProvider<GoRouter>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GoRouterRef = AutoDisposeProviderRef<GoRouter>;
-String _$authStateHash() => r'd7c2d5ee4a20dab829b91855bfcfc98681360aa4';
+String _$authStateHash() => r'47ebe91354dbe0708ea8f8d1a22badb44cee6f75';
 
 /// See also [AuthState].
 @ProviderFor(AuthState)

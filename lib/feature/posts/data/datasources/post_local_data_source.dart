@@ -1,4 +1,5 @@
 import 'package:clean_architecture/core/error/failure.dart';
+import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/feature/posts/data/model.dart/post_offline_model.dart';
 import 'package:realm/realm.dart';
 
@@ -7,13 +8,13 @@ abstract class PostLocalDataSource {
   Future<void> cachePosts(List<PostOfflineModel> posts);
   Future<PostOfflineModel?> getPost(int id);
   Future<void> cachePost(PostOfflineModel post);
-  Future<void> deletePost(int id); // For cache invalidation
+  Future<void> deletePost(int id);
 }
 
 class PostLocalDataSourceImpl implements PostLocalDataSource {
   final Realm realm;
 
-    PostLocalDataSourceImpl(this.realm);
+  PostLocalDataSourceImpl(this.realm);
 
   @override
   Future<List<PostOfflineModel>> getPosts() async {
@@ -37,6 +38,7 @@ class PostLocalDataSourceImpl implements PostLocalDataSource {
         }
       });
     } catch (e) {
+      Logs.e('Error fetching posts from local database: $e');
       throw CacheFailure();
     }
   }

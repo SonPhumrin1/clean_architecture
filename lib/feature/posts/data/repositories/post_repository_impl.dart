@@ -1,4 +1,5 @@
 import 'package:clean_architecture/core/error/failure.dart';
+import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/core/util/network_info.dart';
 import 'package:clean_architecture/feature/posts/data/model.dart/post_offline_model.dart';
 import 'package:clean_architecture/feature/posts/data/model.dart/post_online_model.dart';
@@ -25,12 +26,12 @@ class PostRepositoryImpl implements PostRepository {
       try {
         final remotePosts = await remoteDataSource.getPosts();
         final realmPosts = remotePosts
-            .map((model) => PostOfflineModel.fromEntity(
-                PostOnlineModel.toEntity(model) as PostEntity))
+            .map((model) =>
+                PostOfflineModel.fromEntity(PostOnlineModel.toEntity(model)))
             .toList();
         await localDataSource.cachePosts(realmPosts);
         return Right(remotePosts
-            .map((model) => PostOnlineModel.toEntity(model) as PostEntity)
+            .map((model) => PostOnlineModel.toEntity(model))
             .toList());
       } on Exception {
         return Left(
@@ -39,6 +40,7 @@ class PostRepositoryImpl implements PostRepository {
     } else {
       try {
         final localPosts = await localDataSource.getPosts();
+        Logs.d('Fetched ${localPosts.length} posts from local database');
         return Right(localPosts.map((model) => model.toEntity()).toList());
       } on CacheFailure {
         return Left(CacheFailure());
@@ -51,9 +53,9 @@ class PostRepositoryImpl implements PostRepository {
     if (await networkInfo.isConnected) {
       try {
         final remotePost = await remoteDataSource.getPost(id);
-        await localDataSource.cachePost(PostOfflineModel.fromEntity(
-            PostOnlineModel.toEntity(remotePost) as PostEntity));
-        return Right(PostOnlineModel.toEntity(remotePost) as PostEntity);
+        await localDataSource.cachePost(
+            PostOfflineModel.fromEntity(PostOnlineModel.toEntity(remotePost)));
+        return Right(PostOnlineModel.toEntity(remotePost));
       } on Exception {
         return Left(ServerFailure(message: 'Failed to fetch post from server'));
       }
@@ -81,9 +83,9 @@ class PostRepositoryImpl implements PostRepository {
             title: post.title,
             body: post.body);
         final createdPost = await remoteDataSource.createPost(postApiModel);
-        await localDataSource.cachePost(PostOfflineModel.fromEntity(
-            PostOnlineModel.toEntity(createdPost) as PostEntity));
-        return Right(PostOnlineModel.toEntity(createdPost) as PostEntity);
+        await localDataSource.cachePost(
+            PostOfflineModel.fromEntity(PostOnlineModel.toEntity(createdPost)));
+        return Right(PostOnlineModel.toEntity(createdPost));
       } on Exception {
         return Left(ServerFailure(message: 'Failed to create post'));
       }
@@ -102,9 +104,9 @@ class PostRepositoryImpl implements PostRepository {
             title: post.title,
             body: post.body);
         final updatedPost = await remoteDataSource.updatePost(postApiModel);
-        await localDataSource.cachePost(PostOfflineModel.fromEntity(
-            PostOnlineModel.toEntity(updatedPost) as PostEntity));
-        return Right(PostOnlineModel.toEntity(updatedPost) as PostEntity);
+        await localDataSource.cachePost(
+            PostOfflineModel.fromEntity(PostOnlineModel.toEntity(updatedPost)));
+        return Right(PostOnlineModel.toEntity(updatedPost));
       } on Exception {
         return Left(ServerFailure(message: 'Failed to update post'));
       }
@@ -142,12 +144,12 @@ class PostRepositoryImpl implements PostRepository {
             .toList();
         final syncedPosts = await remoteDataSource.syncPosts(postApiModels);
         final realmPosts = syncedPosts
-            .map((model) => PostOfflineModel.fromEntity(
-                PostOnlineModel.toEntity(model) as PostEntity))
+            .map((model) =>
+                PostOfflineModel.fromEntity(PostOnlineModel.toEntity(model)))
             .toList();
         await localDataSource.cachePosts(realmPosts);
         return Right(syncedPosts
-            .map((model) => PostOnlineModel.toEntity(model) as PostEntity)
+            .map((model) => PostOnlineModel.toEntity(model))
             .toList());
       } on Exception {
         return Left(ServerFailure(message: 'Failed to sync posts'));

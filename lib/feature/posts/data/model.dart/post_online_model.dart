@@ -17,12 +17,12 @@ class PostOnlineModel with _$PostOnlineModel {
       _$PostOnlineModelFromJson(json);
 
   // Mapper to domain entity
-  factory PostOnlineModel.toEntity(PostOnlineModel model) {
+  static PostEntity toEntity(PostOnlineModel model) {
     return PostEntity(
       id: model.id,
       userId: model.userId,
       title: model.title,
       body: model.body,
-    ) as PostOnlineModel; // Cast needed due to different return type
+    ); // Cast needed due to different return type
   }
 }

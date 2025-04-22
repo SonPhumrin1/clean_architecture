@@ -1,6 +1,6 @@
+import 'package:clean_architecture/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../providers/posts_provider.dart';
 
 class PostsPage extends ConsumerWidget {
@@ -16,8 +16,7 @@ class PostsPage extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: null,
-            //  () => const CreatePostRoute().go(context),
+            onPressed: () => const CreatePostRoute().push(context),
           ),
         ],
       ),
@@ -28,14 +27,12 @@ class PostsPage extends ConsumerWidget {
             itemBuilder: (context, index) {
               final post = posts[index];
               return ListTile(
-                title: Text(post.title),
-                subtitle: Text(post.body,
-                    maxLines: 2, overflow: TextOverflow.ellipsis),
-                onTap: null,
-                //  () =>
-                //   PostDetailRoute(postId: post.id.toString()).go(context);
-                // ,
-              );
+                  title: Text(post.title),
+                  subtitle: Text(post.body,
+                      maxLines: 2, overflow: TextOverflow.ellipsis),
+                  onTap: () {
+                    PostDetailRoute(postId: post.id.toString()).push(context);
+                  });
             },
           );
         },

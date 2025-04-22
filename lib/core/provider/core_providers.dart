@@ -1,3 +1,4 @@
+import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/core/util/network_info.dart';
 import 'package:clean_architecture/feature/posts/data/model.dart/post_offline_model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -10,10 +11,14 @@ part 'core_providers.g.dart';
 
 final config = Configuration.local([PostOffline.schema]);
 
-@riverpod
+@Riverpod(keepAlive: true)
 Realm realm(Ref ref) {
   final realm = Realm(config);
-  ref.onDispose(() => realm.close());
+  ref.onDispose(() {
+    Logs.t("Closing Realm...");
+    realm.close();
+  });
+  Logs.t("Realm Provider Initialized");
   return realm;
 }
 

@@ -6,11 +6,11 @@ part of 'core_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$realmHash() => r'd0fb979c55c57e06ae9a20449f0b4e8df557b3f8';
+String _$realmHash() => r'5e5a4f1cefe0ce7d7cb018c2152009a979b5a51b';
 
 /// See also [realm].
 @ProviderFor(realm)
-final realmProvider = AutoDisposeProvider<Realm>.internal(
+final realmProvider = Provider<Realm>.internal(
   realm,
   name: r'realmProvider',
   debugGetCreateSourceHash:
@@ -21,7 +21,7 @@ final realmProvider = AutoDisposeProvider<Realm>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef RealmRef = AutoDisposeProviderRef<Realm>;
+typedef RealmRef = ProviderRef<Realm>;
 String _$dioHash() => r'752e988f9490880f64bef088652cc7723ff31e0b';
 
 /// See also [dio].

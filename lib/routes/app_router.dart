@@ -121,7 +121,7 @@ class AuthState extends _$AuthState {
   FutureOr<bool> build() async {
     await Future.delayed(const Duration(seconds: 5));
 
-    return false;
+    return true;
   }
 
   Future<void> login() async {
