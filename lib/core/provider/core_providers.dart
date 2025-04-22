@@ -1,3 +1,4 @@
+import 'package:clean_architecture/core/config/app_config_model.dart';
 import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/core/util/network_info.dart';
 import 'package:clean_architecture/feature/posts/data/model.dart/post_offline_model.dart';
@@ -9,7 +10,7 @@ import 'package:realm/realm.dart';
 
 part 'core_providers.g.dart';
 
-final config = Configuration.local([PostOffline.schema]);
+final config = Configuration.local([PostOffline.schema, AppConfig.schema]);
 
 @Riverpod(keepAlive: true)
 Realm realm(Ref ref) {
@@ -32,4 +33,39 @@ Dio dio(Ref ref) {
 NetworkInfo networkInfo(Ref ref) {
   final connectivity = Connectivity();
   return NetworkInfoImpl(connectivity);
+}
+
+@riverpod
+class AuthStateNotifier extends _$AuthStateNotifier {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void setAuthState(bool value) {
+    state = value;
+  }
+}
+
+@riverpod
+class FirstInitStateNotifier extends _$FirstInitStateNotifier {
+  @override
+  bool build() {
+    return true;
+  }
+
+  void setFirstInitState(bool value) {
+    state = value;
+  }
+}
+
+@Riverpod(keepAlive: true)
+Future<void> startUp(Ref ref) async {
+  final realmDb = ref.watch(realmProvider);
+  final appConfig = realmDb.all<AppConfig>().firstOrNull;
+  final accessToken = appConfig?.accessToken;
+
+  if (accessToken != null && accessToken.isNotEmpty) {
+    ref.read(authStateNotifierProvider.notifier).setAuthState(true);
+  }
 }
