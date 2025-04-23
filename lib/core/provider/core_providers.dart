@@ -1,4 +1,5 @@
 import 'package:clean_architecture/core/config/app_config_model.dart';
+import 'package:clean_architecture/core/util/interceptor.dart';
 import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/core/util/network_info.dart';
 import 'package:clean_architecture/feature/posts/data/model.dart/post_offline_model.dart';
@@ -25,7 +26,7 @@ Realm realm(Ref ref) {
 
 @riverpod
 Dio dio(Ref ref) {
-  final dio = Dio();
+  final dio = Dio()..interceptors.add(LoggerInterceptor());
   return dio;
 }
 
