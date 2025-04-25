@@ -64,17 +64,17 @@ class MockPostRepository extends _i1.Mock implements _i3.PostRepository {
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.PostEntity>>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.PostEntity>> getPost(int? id) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.PostEntity>> getPostById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getPost,
+          #getPostById,
           [id],
         ),
         returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.PostEntity>>.value(
             _FakeEither_0<_i5.Failure, _i6.PostEntity>(
           this,
           Invocation.method(
-            #getPost,
+            #getPostById,
             [id],
           ),
         )),
@@ -117,38 +117,19 @@ class MockPostRepository extends _i1.Mock implements _i3.PostRepository {
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.PostEntity>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> deletePost(int? id) =>
+  _i4.Future<_i2.Either<_i5.Failure, bool>> deletePost(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deletePost,
           [id],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
-            _FakeEither_0<_i5.Failure, void>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, bool>>.value(
+            _FakeEither_0<_i5.Failure, bool>(
           this,
           Invocation.method(
             #deletePost,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
-
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.PostEntity>>> syncPosts(
-          List<_i6.PostEntity>? posts) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #syncPosts,
-          [posts],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, List<_i6.PostEntity>>>.value(
-                _FakeEither_0<_i5.Failure, List<_i6.PostEntity>>(
-          this,
-          Invocation.method(
-            #syncPosts,
-            [posts],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.PostEntity>>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, bool>>);
 }

@@ -1,37 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_offline_model.dart';
+part of 'post_model.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class PostOffline extends _PostOffline
+class PostModel extends _PostModel
     with RealmEntity, RealmObjectBase, RealmObject {
-  PostOffline(
-    int id,
-    int userId,
+  PostModel(
+    String id,
     String title,
     String body,
+    bool isSynced,
   ) {
     RealmObjectBase.set(this, 'id', id);
-    RealmObjectBase.set(this, 'userId', userId);
     RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'body', body);
+    RealmObjectBase.set(this, 'isSynced', isSynced);
   }
 
-  PostOffline._();
+  PostModel._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  String get id => RealmObjectBase.get<String>(this, 'id') as String;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
-
-  @override
-  int get userId => RealmObjectBase.get<int>(this, 'userId') as int;
-  @override
-  set userId(int value) => RealmObjectBase.set(this, 'userId', value);
+  set id(String value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get title => RealmObjectBase.get<String>(this, 'title') as String;
@@ -44,55 +39,58 @@ class PostOffline extends _PostOffline
   set body(String value) => RealmObjectBase.set(this, 'body', value);
 
   @override
-  Stream<RealmObjectChanges<PostOffline>> get changes =>
-      RealmObjectBase.getChanges<PostOffline>(this);
+  bool get isSynced => RealmObjectBase.get<bool>(this, 'isSynced') as bool;
+  @override
+  set isSynced(bool value) => RealmObjectBase.set(this, 'isSynced', value);
 
   @override
-  Stream<RealmObjectChanges<PostOffline>> changesFor(
-          [List<String>? keyPaths]) =>
-      RealmObjectBase.getChangesFor<PostOffline>(this, keyPaths);
+  Stream<RealmObjectChanges<PostModel>> get changes =>
+      RealmObjectBase.getChanges<PostModel>(this);
 
   @override
-  PostOffline freeze() => RealmObjectBase.freezeObject<PostOffline>(this);
+  Stream<RealmObjectChanges<PostModel>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<PostModel>(this, keyPaths);
+
+  @override
+  PostModel freeze() => RealmObjectBase.freezeObject<PostModel>(this);
 
   EJsonValue toEJson() {
     return <String, dynamic>{
       'id': id.toEJson(),
-      'userId': userId.toEJson(),
       'title': title.toEJson(),
       'body': body.toEJson(),
+      'isSynced': isSynced.toEJson(),
     };
   }
 
-  static EJsonValue _toEJson(PostOffline value) => value.toEJson();
-  static PostOffline _fromEJson(EJsonValue ejson) {
+  static EJsonValue _toEJson(PostModel value) => value.toEJson();
+  static PostModel _fromEJson(EJsonValue ejson) {
     if (ejson is! Map<String, dynamic>) return raiseInvalidEJson(ejson);
     return switch (ejson) {
       {
         'id': EJsonValue id,
-        'userId': EJsonValue userId,
         'title': EJsonValue title,
         'body': EJsonValue body,
+        'isSynced': EJsonValue isSynced,
       } =>
-        PostOffline(
+        PostModel(
           fromEJson(id),
-          fromEJson(userId),
           fromEJson(title),
           fromEJson(body),
+          fromEJson(isSynced),
         ),
       _ => raiseInvalidEJson(ejson),
     };
   }
 
   static final schema = () {
-    RealmObjectBase.registerFactory(PostOffline._);
+    RealmObjectBase.registerFactory(PostModel._);
     register(_toEJson, _fromEJson);
-    return const SchemaObject(
-        ObjectType.realmObject, PostOffline, 'PostOffline', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
-      SchemaProperty('userId', RealmPropertyType.int),
+    return const SchemaObject(ObjectType.realmObject, PostModel, 'PostModel', [
+      SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('body', RealmPropertyType.string),
+      SchemaProperty('isSynced', RealmPropertyType.bool),
     ]);
   }();
 

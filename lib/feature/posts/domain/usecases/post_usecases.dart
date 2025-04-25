@@ -15,14 +15,14 @@ class GetPosts implements UseCase<List<PostEntity>, NoParams> {
   }
 }
 
-class GetPost implements UseCase<PostEntity, int> {
+class GetPost implements UseCase<PostEntity, String> {
   final PostRepository repository;
 
   GetPost(this.repository);
 
   @override
-  Future<Either<Failure, PostEntity>> call(int params) async {
-    return await repository.getPost(params);
+  Future<Either<Failure, PostEntity>> call(String params) async {
+    return await repository.getPostById(params);
   }
 }
 
@@ -48,25 +48,13 @@ class UpdatePost implements UseCase<PostEntity, PostEntity> {
   }
 }
 
-class DeletePost implements UseCase<void, int> {
+class DeletePost implements UseCase<void, String> {
   final PostRepository repository;
 
   DeletePost(this.repository);
 
   @override
-  Future<Either<Failure, void>> call(int params) async {
+  Future<Either<Failure, void>> call(String params) async {
     return await repository.deletePost(params);
-  }
-}
-
-class SyncPosts implements UseCase<List<PostEntity>, List<PostEntity>> {
-  final PostRepository repository;
-
-  SyncPosts(this.repository);
-
-  @override
-  Future<Either<Failure, List<PostEntity>>> call(
-      List<PostEntity> params) async {
-    return await repository.syncPosts(params);
   }
 }

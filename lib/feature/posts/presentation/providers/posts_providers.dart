@@ -1,4 +1,7 @@
-import 'package:clean_architecture/core/provider/core_providers.dart';
+import 'package:clean_architecture/core/api/api_service.dart';
+import 'package:clean_architecture/core/local/realm_config.dart';
+import 'package:clean_architecture/core/network/network_info.dart';
+import 'package:clean_architecture/core/provider/sync_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/datasources/post_local_data_source.dart';
@@ -9,23 +12,23 @@ import '../../domain/usecases/post_usecases.dart';
 
 part 'posts_providers.g.dart';
 
-// Data Sources Providers
 @riverpod
-PostRemoteDataSource postRemoteDataSource(Ref ref) {
-  return PostRemoteDataSourceImpl(ref.read(dioProvider));
+PostOnlineDataSource postOnlineDataSource(Ref ref) {
+  return PostOnlineDataSourceImpl(apiService: ref.watch(apiServiceProvider));
 }
 
 @riverpod
-PostLocalDataSource postLocalDataSource(Ref ref) {
-  return PostLocalDataSourceImpl(ref.read(realmProvider));
+PostOfflineDataSource postOfflineDataSource(Ref ref) {
+  return PostOfflineDataSourceImpl(realmConfig: ref.watch(realmConfigProvider));
 }
 
 @riverpod
 PostRepository postRepository(Ref ref) {
   return PostRepositoryImpl(
-    remoteDataSource: ref.read(postRemoteDataSourceProvider),
-    localDataSource: ref.read(postLocalDataSourceProvider),
-    networkInfo: ref.read(networkInfoProvider),
+    onlineDataSource: ref.watch(postOnlineDataSourceProvider),
+    offlineDataSource: ref.watch(postOfflineDataSourceProvider),
+    networkInfo: ref.watch(networkInfoProvider),
+    syncService: ref.watch(syncServiceProvider),
   );
 }
 
@@ -52,9 +55,4 @@ DeletePost deletePostUseCase(Ref ref) {
 @riverpod
 GetPosts getPostsUseCase(Ref ref) {
   return GetPosts(ref.read(postRepositoryProvider));
-}
-
-@riverpod
-SyncPosts syncPostsUseCase(Ref ref) {
-  return SyncPosts(ref.read(postRepositoryProvider));
 }

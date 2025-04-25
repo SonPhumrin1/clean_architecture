@@ -17,3 +17,8 @@ class ServerFailure extends Failure {
 class CacheFailure extends Failure {}
 
 class NetworkFailure extends Failure {}
+
+class SyncFailure extends Failure {
+  final String message;
+  const SyncFailure({required this.message});
+}

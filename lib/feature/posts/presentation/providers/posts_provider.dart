@@ -33,7 +33,7 @@ class PostsNotifier extends _$PostsNotifier {
     state = await AsyncValue.guard(() => _fetchPosts());
   }
 
-  Future<PostEntity> getPost(int id) async {
+  Future<PostEntity> getPost(String id) async {
     final getPostUseCase = ref.read(getPostUseCaseProvider);
     final result = await getPostUseCase(id);
 
@@ -92,9 +92,9 @@ class PostsNotifier extends _$PostsNotifier {
     return result;
   }
 
-  Future<Either<Failure, void>> deletePost(int postId) async {
+  Future<Either<Failure, void>> deletePost(String postId) async {
     final deletePostUseCase = ref.read(deletePostUseCaseProvider);
-    state = const AsyncValue.loading(); // Optional: Show loading
+    state = const AsyncValue.loading();
 
     final result = await deletePostUseCase(postId);
 
@@ -113,24 +113,5 @@ class PostsNotifier extends _$PostsNotifier {
     await refreshPosts();
 
     return result;
-  }
-
-  Future<void> syncPosts(List<PostEntity> posts) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final syncPostsUseCase = ref.read(syncPostsUseCaseProvider);
-      final result = await syncPostsUseCase(posts);
-
-      return result.fold(
-        (failure) {
-          Logs.e('Error syncing posts: $failure');
-          throw failure;
-        },
-        (syncedPosts) {
-          state = AsyncValue.data(syncedPosts);
-          return syncedPosts;
-        },
-      );
-    });
   }
 }

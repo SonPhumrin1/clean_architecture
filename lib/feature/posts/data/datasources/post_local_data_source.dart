@@ -1,80 +1,95 @@
-import 'package:clean_architecture/core/error/failure.dart';
 import 'package:clean_architecture/core/util/logger.dart';
-import 'package:clean_architecture/feature/posts/data/model.dart/post_offline_model.dart';
 import 'package:realm/realm.dart';
+import 'package:clean_architecture/feature/posts/data/models/post_model.dart';
+import 'package:clean_architecture/core/error/exception.dart';
+import 'package:clean_architecture/core/local/realm_config.dart';
 
-abstract class PostLocalDataSource {
-  Future<List<PostOfflineModel>> getPosts();
-  Future<void> cachePosts(List<PostOfflineModel> posts);
-  Future<PostOfflineModel?> getPost(int id);
-  Future<void> cachePost(PostOfflineModel post);
-  Future<void> deletePost(int id);
+abstract class PostOfflineDataSource {
+  Future<List<PostModel>> getPosts();
+  Future<PostModel?> getPostById(String id);
+  Future<void> cachePost(PostModel post);
+  Future<void> cachePosts(List<PostModel> posts);
+  Future<void> deletePost(String id);
+  Future<void> deleteAllPosts();
 }
 
-class PostLocalDataSourceImpl implements PostLocalDataSource {
-  final Realm realm;
+class PostOfflineDataSourceImpl implements PostOfflineDataSource {
+  final RealmConfig realmConfig;
 
-  PostLocalDataSourceImpl(this.realm);
+  Realm get realm => realmConfig.realm;
+
+  PostOfflineDataSourceImpl({required this.realmConfig});
 
   @override
-  Future<List<PostOfflineModel>> getPosts() async {
+  Future<List<PostModel>> getPosts() async {
     try {
-      final posts = realm.all<PostOffline>().toList();
-      return posts
-          .map((post) => PostOfflineModel.fromRealmObject(post))
-          .toList();
+      return realm.all<PostModel>().toList();
     } catch (e) {
-      throw CacheFailure();
+      Logs.e('Error fetching posts from local database: $e');
+      throw CacheException("$e");
     }
   }
 
   @override
-  Future<void> cachePosts(List<PostOfflineModel> posts) async {
+  Future<PostModel?> getPostById(String id) async {
+    try {
+      return realm.find<PostModel>(id);
+    } catch (e) {
+      Logs.e('Error finding post $id from local database: $e');
+      throw CacheException("$e");
+    }
+  }
+
+  @override
+  Future<void> cachePost(PostModel post) async {
     try {
       realm.write(() {
-        realm.deleteAll<PostOffline>();
+        realm.add(post, update: true);
+      });
+    } catch (e) {
+      Logs.e('Error caching post ${post.id}: $e');
+      throw CacheException("$e");
+    }
+  }
+
+  @override
+  Future<void> cachePosts(List<PostModel> posts) async {
+    try {
+      realm.write(() {
         for (var post in posts) {
-          realm.add(post.toRealmObject(), update: true); // Add or update
+          realm.add(post, update: true);
         }
       });
     } catch (e) {
-      Logs.e('Error fetching posts from local database: $e');
-      throw CacheFailure();
+      Logs.e('Error caching posts batch: $e');
+      throw CacheException("$e");
     }
   }
 
   @override
-  Future<PostOfflineModel?> getPost(int id) async {
-    try {
-      final post = realm.find<PostOffline>(id);
-      return post != null ? PostOfflineModel.fromRealmObject(post) : null;
-    } catch (e) {
-      throw CacheFailure();
-    }
-  }
-
-  @override
-  Future<void> cachePost(PostOfflineModel post) async {
+  Future<void> deletePost(String id) async {
     try {
       realm.write(() {
-        realm.add(post.toRealmObject(), update: true); // Add or update
-      });
-    } catch (e) {
-      throw CacheFailure();
-    }
-  }
-
-  @override
-  Future<void> deletePost(int id) async {
-    try {
-      realm.write(() {
-        final postToDelete = realm.find<PostOffline>(id);
+        final postToDelete = realm.find<PostModel>(id);
         if (postToDelete != null) {
           realm.delete(postToDelete);
         }
       });
     } catch (e) {
-      throw CacheFailure();
+      Logs.e('Error deleting post $id from cache: $e');
+      throw CacheException("$e");
+    }
+  }
+
+  @override
+  Future<void> deleteAllPosts() async {
+    try {
+      realm.write(() {
+        realm.deleteAll<PostModel>();
+      });
+    } catch (e) {
+      Logs.e('Error deleting all posts from cache: $e');
+      throw CacheException("$e");
     }
   }
 }

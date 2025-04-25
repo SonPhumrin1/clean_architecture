@@ -6,45 +6,46 @@ part of 'posts_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$postRemoteDataSourceHash() =>
-    r'577045b8863b9ad36b2569adc11492c8db937749';
+String _$postOnlineDataSourceHash() =>
+    r'03b91d183a1799c355354a4b5ff0f2ae4ca72433';
 
-/// See also [postRemoteDataSource].
-@ProviderFor(postRemoteDataSource)
-final postRemoteDataSourceProvider =
-    AutoDisposeProvider<PostRemoteDataSource>.internal(
-  postRemoteDataSource,
-  name: r'postRemoteDataSourceProvider',
+/// See also [postOnlineDataSource].
+@ProviderFor(postOnlineDataSource)
+final postOnlineDataSourceProvider =
+    AutoDisposeProvider<PostOnlineDataSource>.internal(
+  postOnlineDataSource,
+  name: r'postOnlineDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$postRemoteDataSourceHash,
+      : _$postOnlineDataSourceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef PostRemoteDataSourceRef = AutoDisposeProviderRef<PostRemoteDataSource>;
-String _$postLocalDataSourceHash() =>
-    r'acb0a063085e1bccf48f85707687efcba2c17f63';
+typedef PostOnlineDataSourceRef = AutoDisposeProviderRef<PostOnlineDataSource>;
+String _$postOfflineDataSourceHash() =>
+    r'85bd50a415c5cb197be259820a9e928222932562';
 
-/// See also [postLocalDataSource].
-@ProviderFor(postLocalDataSource)
-final postLocalDataSourceProvider =
-    AutoDisposeProvider<PostLocalDataSource>.internal(
-  postLocalDataSource,
-  name: r'postLocalDataSourceProvider',
+/// See also [postOfflineDataSource].
+@ProviderFor(postOfflineDataSource)
+final postOfflineDataSourceProvider =
+    AutoDisposeProvider<PostOfflineDataSource>.internal(
+  postOfflineDataSource,
+  name: r'postOfflineDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$postLocalDataSourceHash,
+      : _$postOfflineDataSourceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef PostLocalDataSourceRef = AutoDisposeProviderRef<PostLocalDataSource>;
-String _$postRepositoryHash() => r'596a09bf01334525bc7d77c917c73a7cfed7d3b7';
+typedef PostOfflineDataSourceRef
+    = AutoDisposeProviderRef<PostOfflineDataSource>;
+String _$postRepositoryHash() => r'bd267d63d6c7ea1dedc272bef56591766da92676';
 
 /// See also [postRepository].
 @ProviderFor(postRepository)
@@ -146,22 +147,5 @@ final getPostsUseCaseProvider = AutoDisposeProvider<GetPosts>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetPostsUseCaseRef = AutoDisposeProviderRef<GetPosts>;
-String _$syncPostsUseCaseHash() => r'8bb203d2af9ca64baf02b8bc22f2e73e68d86158';
-
-/// See also [syncPostsUseCase].
-@ProviderFor(syncPostsUseCase)
-final syncPostsUseCaseProvider = AutoDisposeProvider<SyncPosts>.internal(
-  syncPostsUseCase,
-  name: r'syncPostsUseCaseProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$syncPostsUseCaseHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SyncPostsUseCaseRef = AutoDisposeProviderRef<SyncPosts>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -4,11 +4,16 @@ class ServerException implements Exception {
 }
 
 class CacheException implements Exception {
-  final String message;
+  final String? message;
   CacheException(this.message);
 }
 
 class NetworkException implements Exception {
   final String message;
   NetworkException(this.message);
+}
+
+class SyncException implements Exception {
+  final String message;
+  SyncException({this.message = 'Sync operation failed'});
 }
