@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostDetailPage extends ConsumerWidget {
-  final int postId;
+  final String postId;
 
   const PostDetailPage({super.key, required this.postId});
 

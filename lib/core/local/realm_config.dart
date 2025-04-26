@@ -1,6 +1,7 @@
 // lib/core/utils/realm_config.dart
 import 'package:clean_architecture/core/model/app_config_model.dart';
 import 'package:clean_architecture/core/model/sync_queue_model.dart';
+import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/feature/posts/data/models/post_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:realm/realm.dart';
@@ -25,11 +26,15 @@ class RealmConfig {
   }
 }
 
-@riverpod
+// --- Add keepAlive: true ---
+@Riverpod(keepAlive: true)
 RealmConfig realmConfig(Ref ref) {
-  final realmConfig = RealmConfig();
+  // Use generated Ref type
+  final realmConfigInstance = RealmConfig();
   ref.onDispose(() {
-    realmConfig.close();
+    Logs.d("Disposing realmConfigProvider, closing Realm...");
+    realmConfigInstance.close();
   });
-  return realmConfig;
+  Logs.d("realmConfigProvider initialized.");
+  return realmConfigInstance;
 }

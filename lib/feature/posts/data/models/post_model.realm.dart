@@ -12,12 +12,12 @@ class PostModel extends _PostModel
   PostModel(
     String id,
     String title,
-    String body,
+    String content,
     bool isSynced,
   ) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'title', title);
-    RealmObjectBase.set(this, 'body', body);
+    RealmObjectBase.set(this, 'content', content);
     RealmObjectBase.set(this, 'isSynced', isSynced);
   }
 
@@ -34,9 +34,9 @@ class PostModel extends _PostModel
   set title(String value) => RealmObjectBase.set(this, 'title', value);
 
   @override
-  String get body => RealmObjectBase.get<String>(this, 'body') as String;
+  String get content => RealmObjectBase.get<String>(this, 'content') as String;
   @override
-  set body(String value) => RealmObjectBase.set(this, 'body', value);
+  set content(String value) => RealmObjectBase.set(this, 'content', value);
 
   @override
   bool get isSynced => RealmObjectBase.get<bool>(this, 'isSynced') as bool;
@@ -58,7 +58,7 @@ class PostModel extends _PostModel
     return <String, dynamic>{
       'id': id.toEJson(),
       'title': title.toEJson(),
-      'body': body.toEJson(),
+      'content': content.toEJson(),
       'isSynced': isSynced.toEJson(),
     };
   }
@@ -70,13 +70,13 @@ class PostModel extends _PostModel
       {
         'id': EJsonValue id,
         'title': EJsonValue title,
-        'body': EJsonValue body,
+        'content': EJsonValue content,
         'isSynced': EJsonValue isSynced,
       } =>
         PostModel(
           fromEJson(id),
           fromEJson(title),
-          fromEJson(body),
+          fromEJson(content),
           fromEJson(isSynced),
         ),
       _ => raiseInvalidEJson(ejson),
@@ -89,7 +89,7 @@ class PostModel extends _PostModel
     return const SchemaObject(ObjectType.realmObject, PostModel, 'PostModel', [
       SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('title', RealmPropertyType.string),
-      SchemaProperty('body', RealmPropertyType.string),
+      SchemaProperty('content', RealmPropertyType.string),
       SchemaProperty('isSynced', RealmPropertyType.bool),
     ]);
   }();

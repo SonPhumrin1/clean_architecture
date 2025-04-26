@@ -1,7 +1,5 @@
-import 'package:clean_architecture/core/error/failure.dart';
 import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/feature/posts/presentation/providers/posts_providers.dart';
-import 'package:dartz/dartz.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/post_entity.dart';
 import '../../../../core/usecases/usecase.dart';
@@ -22,6 +20,7 @@ class PostsNotifier extends _$PostsNotifier {
     return result.fold(
       (failure) {
         Logs.e('Error fetching posts: $failure');
+
         throw failure;
       },
       (posts) => posts,
@@ -30,6 +29,7 @@ class PostsNotifier extends _$PostsNotifier {
 
   Future<void> refreshPosts() async {
     state = const AsyncValue.loading();
+
     state = await AsyncValue.guard(() => _fetchPosts());
   }
 
@@ -39,79 +39,110 @@ class PostsNotifier extends _$PostsNotifier {
 
     return result.fold(
       (failure) {
-        Logs.e('Error fetching posts: $failure');
+        Logs.e('Error fetching post $id: $failure');
         throw failure;
       },
       (post) => post,
     );
   }
 
-  Future<Either<Failure, PostEntity>> createPost(PostEntity post) async {
+  Future<void> createPost(PostEntity post) async {
+    final AsyncValue<List<PostEntity>> previousState = state;
+
+    state = const AsyncValue<List<PostEntity>>.loading()
+        .copyWithPrevious(previousState);
+
     final createPostUseCase = ref.read(createPostUseCaseProvider);
-    state = const AsyncValue.loading(); // Optional: Show loading while creating
 
-    final result = await createPostUseCase(post);
+    try {
+      final result = await createPostUseCase(post);
 
-    result.fold(
-      (failure) {
-        Logs.e('Error creating post: $failure');
-        state = AsyncValue.error(failure, StackTrace.current);
-      },
-      (newPost) {
-        state.whenData((posts) {
-          state = AsyncValue.data([...posts, newPost]);
-        });
-      },
-    );
+      result.fold(
+        (failure) {
+          Logs.e('Error creating post: $failure');
 
-    return result;
+          state = AsyncError<List<PostEntity>>(failure, StackTrace.current)
+              .copyWithPrevious(previousState);
+        },
+        (newPost) {
+          final List<PostEntity> currentPosts =
+              previousState.valueOrNull ?? <PostEntity>[];
+          final List<PostEntity> updatedPosts = [...currentPosts, newPost];
+          state = AsyncValue<List<PostEntity>>.data(updatedPosts);
+        },
+      );
+    } catch (e, st) {
+      Logs.e('Unexpected error creating post: $e');
+
+      state =
+          AsyncError<List<PostEntity>>(e, st).copyWithPrevious(previousState);
+    }
   }
 
-  Future<Either<Failure, PostEntity>> updatePost(PostEntity post) async {
+  Future<void> updatePost(PostEntity post) async {
+    final AsyncValue<List<PostEntity>> previousState = state;
+    state = const AsyncValue<List<PostEntity>>.loading()
+        .copyWithPrevious(previousState);
+
     final updatePostUseCase = ref.read(updatePostUseCaseProvider);
-    state = const AsyncValue.loading(); // Optional: Show loading
 
-    final result = await updatePostUseCase(post);
+    try {
+      final result = await updatePostUseCase(post);
 
-    result.fold(
-      (failure) {
-        Logs.e('Error updating post: $failure');
-        state = AsyncValue.error(failure, StackTrace.current);
-      },
-      (updatedPost) {
-        state.whenData((posts) {
-          final updatedList = posts
+      result.fold(
+        (failure) {
+          Logs.e('Error updating post: $failure');
+
+          state = AsyncError<List<PostEntity>>(failure, StackTrace.current)
+              .copyWithPrevious(previousState);
+        },
+        (updatedPost) {
+          final List<PostEntity> currentPosts =
+              previousState.valueOrNull ?? <PostEntity>[];
+          final List<PostEntity> updatedList = currentPosts
               .map((p) => p.id == updatedPost.id ? updatedPost : p)
               .toList();
-          state = AsyncValue.data(updatedList);
-        });
-      },
-    );
-    await refreshPosts();
+          state = AsyncValue<List<PostEntity>>.data(updatedList);
+        },
+      );
+    } catch (e, st) {
+      Logs.e('Unexpected error updating post: $e');
 
-    return result;
+      state =
+          AsyncError<List<PostEntity>>(e, st).copyWithPrevious(previousState);
+    }
   }
 
-  Future<Either<Failure, void>> deletePost(String postId) async {
+  Future<void> deletePost(String postId) async {
+    final AsyncValue<List<PostEntity>> previousState = state;
+    state = const AsyncValue<List<PostEntity>>.loading()
+        .copyWithPrevious(previousState);
+
     final deletePostUseCase = ref.read(deletePostUseCaseProvider);
-    state = const AsyncValue.loading();
 
-    final result = await deletePostUseCase(postId);
+    try {
+      final result = await deletePostUseCase(postId);
 
-    result.fold(
-      (failure) {
-        Logs.e('Error deleting post: $failure');
-        state = AsyncValue.error(failure, StackTrace.current);
-      },
-      (_) {
-        state.whenData((posts) {
-          final updatedList = posts.where((p) => p.id != postId).toList();
-          state = AsyncValue.data(updatedList);
-        });
-      },
-    );
-    await refreshPosts();
+      result.fold(
+        (failure) {
+          Logs.e('Error deleting post: $failure');
 
-    return result;
+          state = AsyncError<List<PostEntity>>(failure, StackTrace.current)
+              .copyWithPrevious(previousState);
+        },
+        (_) {
+          final List<PostEntity> currentPosts =
+              previousState.valueOrNull ?? <PostEntity>[];
+          final List<PostEntity> updatedList =
+              currentPosts.where((p) => p.id != postId).toList();
+          state = AsyncValue<List<PostEntity>>.data(updatedList);
+        },
+      );
+    } catch (e, st) {
+      Logs.e('Unexpected error deleting post: $e');
+
+      state =
+          AsyncError<List<PostEntity>>(e, st).copyWithPrevious(previousState);
+    }
   }
 }

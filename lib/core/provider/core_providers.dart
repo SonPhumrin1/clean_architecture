@@ -5,15 +5,35 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'core_providers.g.dart';
 
-@riverpod
-class AuthStateNotifier extends _$AuthStateNotifier {
+@Riverpod(keepAlive: true)
+class AuthState extends _$AuthState {
   @override
-  bool build() {
-    return false;
+  FutureOr<bool> build() async {
+    await Future.delayed(const Duration(seconds: 5));
+
+    return true;
   }
 
-  void setAuthState(bool value) {
-    state = value;
+  Future<void> login() async {
+    state = const AsyncLoading();
+    try {
+      await Future.delayed(const Duration(seconds: 5));
+
+      state = const AsyncData(true);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
+  Future<void> logout() async {
+    state = const AsyncLoading();
+    try {
+      await Future.delayed(const Duration(seconds: 5));
+
+      state = const AsyncData(false);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
   }
 }
 
@@ -36,6 +56,6 @@ Future<void> startUp(Ref ref) async {
   final accessToken = appConfig?.accessToken;
 
   if (accessToken != null && accessToken.isNotEmpty) {
-    ref.read(authStateNotifierProvider.notifier).setAuthState(true);
+    ref.read(authStateProvider.notifier).login();
   }
 }

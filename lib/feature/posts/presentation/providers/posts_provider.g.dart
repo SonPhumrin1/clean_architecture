@@ -6,7 +6,7 @@ part of 'posts_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$postsNotifierHash() => r'311f01c036d1551759914b5059e83fbc54583616';
+String _$postsNotifierHash() => r'98ef7bc1b8a44fdc877ce20dd3885fb5f833df38';
 
 /// See also [PostsNotifier].
 @ProviderFor(PostsNotifier)

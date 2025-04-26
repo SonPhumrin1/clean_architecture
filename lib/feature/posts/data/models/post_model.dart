@@ -11,7 +11,7 @@ class _PostModel {
   @PrimaryKey()
   late String id;
   late String title;
-  late String body;
+  late String content;
   late bool isSynced;
 }
 
@@ -20,11 +20,9 @@ extension PostModelExtension on PostModel {
     return PostEntity(
       id: id,
       title: title,
-      body: body,
+      content: content,
     );
   }
-
-  
 }
 
 @freezed
@@ -32,7 +30,7 @@ class PostDto with _$PostDto {
   factory PostDto({
     required String id,
     required String title,
-    required String body,
+    required String content,
   }) = _PostDto;
 
   factory PostDto.fromJson(Map<String, dynamic> json) =>
@@ -44,7 +42,7 @@ extension PostDtoExtension on PostDto {
     return PostModel(
       id,
       title,
-      body,
+      content,
       isSynced,
     );
   }

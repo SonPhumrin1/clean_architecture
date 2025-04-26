@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:clean_architecture/core/provider/core_providers.dart';
 import 'package:clean_architecture/core/util/logger.dart';
 import 'package:clean_architecture/feature/login/presentation/pages/login_page.dart';
 import 'package:clean_architecture/feature/posts/presentation/pages/create_post_page.dart';
@@ -50,7 +51,7 @@ class PostDetailRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return PostDetailPage(postId: int.parse(postId));
+    return PostDetailPage(postId: postId);
   }
 }
 
@@ -103,7 +104,7 @@ GoRouter goRouter(Ref ref) {
           return null;
         } else {
           if (!isLoggingIn) {
-            return const LoginRoute().location;
+            return const PostsRoute().location;
           }
 
           return null;
@@ -113,36 +114,4 @@ GoRouter goRouter(Ref ref) {
       return isSplashing ? null : const SplashRoute().location;
     },
   );
-}
-
-@Riverpod(keepAlive: true)
-class AuthState extends _$AuthState {
-  @override
-  FutureOr<bool> build() async {
-    await Future.delayed(const Duration(seconds: 5));
-
-    return true;
-  }
-
-  Future<void> login() async {
-    state = const AsyncLoading();
-    try {
-      await Future.delayed(const Duration(seconds: 5));
-
-      state = const AsyncData(true);
-    } catch (e, st) {
-      state = AsyncError(e, st);
-    }
-  }
-
-  Future<void> logout() async {
-    state = const AsyncLoading();
-    try {
-      await Future.delayed(const Duration(seconds: 5));
-
-      state = const AsyncData(false);
-    } catch (e, st) {
-      state = AsyncError(e, st);
-    }
-  }
 }

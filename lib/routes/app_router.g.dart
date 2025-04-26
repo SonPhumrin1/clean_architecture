@@ -131,7 +131,7 @@ extension $CreatePostRouteExtension on CreatePostRoute {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$goRouterHash() => r'1efac74fd5452c759fc4b800c3b9ac9c5e12223d';
+String _$goRouterHash() => r'3f29a5cdd5977123aabbc6e4428449cbe16210b8';
 
 /// See also [goRouter].
 @ProviderFor(goRouter)
@@ -147,19 +147,5 @@ final goRouterProvider = AutoDisposeProvider<GoRouter>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GoRouterRef = AutoDisposeProviderRef<GoRouter>;
-String _$authStateHash() => r'47ebe91354dbe0708ea8f8d1a22badb44cee6f75';
-
-/// See also [AuthState].
-@ProviderFor(AuthState)
-final authStateProvider = AsyncNotifierProvider<AuthState, bool>.internal(
-  AuthState.new,
-  name: r'authStateProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$AuthState = AsyncNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

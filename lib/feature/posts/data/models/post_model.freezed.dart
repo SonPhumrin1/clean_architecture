@@ -22,7 +22,7 @@ PostDto _$PostDtoFromJson(Map<String, dynamic> json) {
 mixin _$PostDto {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get body => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
 
   /// Serializes this PostDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $PostDtoCopyWith<$Res> {
   factory $PostDtoCopyWith(PostDto value, $Res Function(PostDto) then) =
       _$PostDtoCopyWithImpl<$Res, PostDto>;
   @useResult
-  $Res call({String id, String title, String body});
+  $Res call({String id, String title, String content});
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$PostDtoCopyWithImpl<$Res, $Val extends PostDto>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? body = null,
+    Object? content = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -69,9 +69,9 @@ class _$PostDtoCopyWithImpl<$Res, $Val extends PostDto>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      body: null == body
-          ? _value.body
-          : body // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -84,7 +84,7 @@ abstract class _$$PostDtoImplCopyWith<$Res> implements $PostDtoCopyWith<$Res> {
       __$$PostDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, String body});
+  $Res call({String id, String title, String content});
 }
 
 /// @nodoc
@@ -102,7 +102,7 @@ class __$$PostDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? body = null,
+    Object? content = null,
   }) {
     return _then(_$PostDtoImpl(
       id: null == id
@@ -113,9 +113,9 @@ class __$$PostDtoImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      body: null == body
-          ? _value.body
-          : body // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -124,7 +124,7 @@ class __$$PostDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PostDtoImpl implements _PostDto {
-  _$PostDtoImpl({required this.id, required this.title, required this.body});
+  _$PostDtoImpl({required this.id, required this.title, required this.content});
 
   factory _$PostDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostDtoImplFromJson(json);
@@ -134,11 +134,11 @@ class _$PostDtoImpl implements _PostDto {
   @override
   final String title;
   @override
-  final String body;
+  final String content;
 
   @override
   String toString() {
-    return 'PostDto(id: $id, title: $title, body: $body)';
+    return 'PostDto(id: $id, title: $title, content: $content)';
   }
 
   @override
@@ -148,12 +148,12 @@ class _$PostDtoImpl implements _PostDto {
             other is _$PostDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.body, body) || other.body == body));
+            (identical(other.content, content) || other.content == content));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, body);
+  int get hashCode => Object.hash(runtimeType, id, title, content);
 
   /// Create a copy of PostDto
   /// with the given fields replaced by the non-null parameter values.
@@ -175,7 +175,7 @@ abstract class _PostDto implements PostDto {
   factory _PostDto(
       {required final String id,
       required final String title,
-      required final String body}) = _$PostDtoImpl;
+      required final String content}) = _$PostDtoImpl;
 
   factory _PostDto.fromJson(Map<String, dynamic> json) = _$PostDtoImpl.fromJson;
 
@@ -184,7 +184,7 @@ abstract class _PostDto implements PostDto {
   @override
   String get title;
   @override
-  String get body;
+  String get content;
 
   /// Create a copy of PostDto
   /// with the given fields replaced by the non-null parameter values.

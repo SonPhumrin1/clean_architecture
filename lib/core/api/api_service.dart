@@ -77,8 +77,8 @@ class ApiService {
       throw NetworkException('Connection error');
     } else if (e.response != null) {
       if (e.response!.statusCode == 401) {
-        // TODO: Handle 401 Unauthorized instead of ServerException
-        throw ServerException('Unauthorized: Please login again');
+        throw UnauthorizedException(
+            message: 'Unauthorized: Please login again');
       }
       throw ServerException(
         e.response?.data['message'] ?? 'Server error occurred',

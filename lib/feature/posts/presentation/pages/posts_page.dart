@@ -28,7 +28,7 @@ class PostsPage extends ConsumerWidget {
               final post = posts[index];
               return ListTile(
                   title: Text(post.title),
-                  subtitle: Text(post.body,
+                  subtitle: Text(post.content,
                       maxLines: 2, overflow: TextOverflow.ellipsis),
                   onTap: () {
                     PostDetailRoute(postId: post.id.toString()).push(context);

@@ -22,22 +22,20 @@ final startUpProvider = FutureProvider<void>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef StartUpRef = FutureProviderRef<void>;
-String _$authStateNotifierHash() => r'e9481a8e92ce5a72e34bd99fdf686667bd125c4c';
+String _$authStateHash() => r'47ebe91354dbe0708ea8f8d1a22badb44cee6f75';
 
-/// See also [AuthStateNotifier].
-@ProviderFor(AuthStateNotifier)
-final authStateNotifierProvider =
-    AutoDisposeNotifierProvider<AuthStateNotifier, bool>.internal(
-  AuthStateNotifier.new,
-  name: r'authStateNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authStateNotifierHash,
+/// See also [AuthState].
+@ProviderFor(AuthState)
+final authStateProvider = AsyncNotifierProvider<AuthState, bool>.internal(
+  AuthState.new,
+  name: r'authStateProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$authStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AuthStateNotifier = AutoDisposeNotifier<bool>;
+typedef _$AuthState = AsyncNotifier<bool>;
 String _$firstInitStateNotifierHash() =>
     r'e7d5794192758490d5153828e4b83f3a66315e1d';
 
