@@ -6,11 +6,11 @@ part of 'core_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$startUpHash() => r'22d3149633dc830616d1237a3fa4af8bb8dbe940';
+String _$startUpHash() => r'adf267c21014680a89e2adcbc72d73c3b33fdf2a';
 
 /// See also [startUp].
 @ProviderFor(startUp)
-final startUpProvider = FutureProvider<void>.internal(
+final startUpProvider = AutoDisposeFutureProvider<void>.internal(
   startUp,
   name: r'startUpProvider',
   debugGetCreateSourceHash:
@@ -21,8 +21,8 @@ final startUpProvider = FutureProvider<void>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef StartUpRef = FutureProviderRef<void>;
-String _$authStateHash() => r'47ebe91354dbe0708ea8f8d1a22badb44cee6f75';
+typedef StartUpRef = AutoDisposeFutureProviderRef<void>;
+String _$authStateHash() => r'56147a4b0fbe147f09418a49041f420139acedc0';
 
 /// See also [AuthState].
 @ProviderFor(AuthState)

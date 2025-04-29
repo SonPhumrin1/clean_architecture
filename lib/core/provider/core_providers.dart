@@ -14,26 +14,8 @@ class AuthState extends _$AuthState {
     return true;
   }
 
-  Future<void> login() async {
-    state = const AsyncLoading();
-    try {
-      await Future.delayed(const Duration(seconds: 5));
-
-      state = const AsyncData(true);
-    } catch (e, st) {
-      state = AsyncError(e, st);
-    }
-  }
-
-  Future<void> logout() async {
-    state = const AsyncLoading();
-    try {
-      await Future.delayed(const Duration(seconds: 5));
-
-      state = const AsyncData(false);
-    } catch (e, st) {
-      state = AsyncError(e, st);
-    }
+  void setAuthState(bool value) {
+    state = AsyncData(value);
   }
 }
 
@@ -49,13 +31,15 @@ class FirstInitStateNotifier extends _$FirstInitStateNotifier {
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<void> startUp(Ref ref) async {
   final realmDb = ref.watch(realmConfigProvider);
   final appConfig = realmDb.realm.all<AppConfig>().firstOrNull;
   final accessToken = appConfig?.accessToken;
 
   if (accessToken != null && accessToken.isNotEmpty) {
-    ref.read(authStateProvider.notifier).login();
+    ref.read(authStateProvider.notifier).setAuthState(true);
+  } else {
+    ref.read(authStateProvider.notifier).setAuthState(false);
   }
 }
