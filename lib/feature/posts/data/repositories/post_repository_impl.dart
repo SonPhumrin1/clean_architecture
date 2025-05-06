@@ -250,7 +250,7 @@ class PostRepositoryImpl implements PostRepository {
     syncService.addToSyncQueue(
       entityType: 'post',
       entityId: id,
-      operation: SyncOperation.delete,
+      operation:   SyncOperation.delete,
     );
   }
 }

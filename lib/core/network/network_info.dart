@@ -1,7 +1,7 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async'; // Required for StreamSubscription if needed elsewhere, good practice to keep
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart'; // Import internet_connection_checker
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'network_info.g.dart';
 
 abstract class NetworkInfo {
@@ -10,26 +10,20 @@ abstract class NetworkInfo {
 }
 
 class NetworkInfoImpl implements NetworkInfo {
-  final Connectivity connectivity;
+  final InternetConnectionChecker connectionChecker;
 
-  NetworkInfoImpl(this.connectivity);
-
-  @override
-  Future<bool> get isConnected async {
-    final result = await connectivity.checkConnectivity();
-    return result.first != ConnectivityResult.none;
-  }
+  NetworkInfoImpl(this.connectionChecker);
 
   @override
-  Stream<bool> get onConnectionChange async* {
-    await for (final result in connectivity.onConnectivityChanged) {
-      yield result.first != ConnectivityResult.none;
-    }
-  }
+  Future<bool> get isConnected => connectionChecker.hasConnection;
+
+  @override
+  Stream<bool> get onConnectionChange => connectionChecker.onStatusChange
+      .map((status) => status == InternetConnectionStatus.connected);
 }
 
 @riverpod
 NetworkInfo networkInfo(Ref ref) {
-  final connectivity = Connectivity();
-  return NetworkInfoImpl(connectivity);
+  final connectionChecker = InternetConnectionChecker.instance;
+  return NetworkInfoImpl(connectionChecker);
 }
